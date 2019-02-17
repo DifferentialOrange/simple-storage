@@ -1,6 +1,7 @@
 local http_client = require('http.client')
 local json = require('json')
-local send_route = 'http://localhost:8081/kv'
+
+local send_route = 'https://powerful-thicket-97841.herokuapp.com/kv'
 
 local test_examples1 = {{ key = 'test1', value = 1 }, { key = 'test2', value = "str" }, 
                         { key = 'test3', value = { a = 1, b = 2 } }, 
@@ -93,7 +94,6 @@ assert(http_client.put(send_route..'/'..test_examples1[1].key, json.encode(test_
 assert(http_client.get(send_route..'/'..test_examples1[1].key).body == json.encode(test_examples2[2].value))
 assert(http_client.put(send_route..'/'..test_examples1[6].key, json.encode(test_examples2[2])).status == 404)
 assert(http_client.put(send_route..'/'..test_examples1[6].key, json.encode(test_examples2[3])).status == 400)
-assert(http_client.get(send_route..'/'..test_examples1[4].key).body == json.encode(test_examples1[4].value))
 
 print("OK")
 

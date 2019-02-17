@@ -1,5 +1,5 @@
 local json = require('json')
-local localhost_port = 8081
+local host_port = os.getenv("PORT") or 8081
 local route_name = '/kv'
 
 
@@ -11,6 +11,7 @@ box.once('init', function()
     )
     end
 )
+
 
 local function get_key_from_path(path)
     return path:sub(string.len(route_name..'/') + 1)
@@ -73,15 +74,9 @@ local function delete_handler(request)
     return {status = 200}
 end
 
-local function clean_handler(request)
-    box.space.base:truncate()
-    return {status = 200}
-end
-
-local server = require('http.server').new(nil, localhost_port, {log_requests, log_errors})
+local server = require('http.server').new(nil, host_port)
 server:route({ path = route_name,          method = "POST"   }, post_handler)
 server:route({ path = route_name..'/:key', method = "PUT"    }, put_handler)
 server:route({ path = route_name..'/:key', method = "GET"    }, get_handler)
 server:route({ path = route_name..'/:key', method = "DELETE" }, delete_handler)
-server:route({ path = '/',                 method = "DELETE" }, clean_handler)
 server:start()
