@@ -5,9 +5,9 @@ Web-version is available at https://powerful-thicket-97841.herokuapp.com/
 
 Request examples:
 ```
-POST /kv body : { key : "abc", value : JSON }
+POST /kv body : { "key" : "abc", "value" : JSON1 }
 
-PUT /kv/abc body : { value : JSON }
+PUT /kv/abc body : { "value" : JSON2 }
 
 GET /kv/abc
 
