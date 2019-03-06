@@ -12,8 +12,19 @@ local test_examples2 = {{ value = "234" }, {value = 234}, {notvalue = 1}}
 
 
 tap = require("tap")
-test = tap.test("HTTP local server test")
+test = tap.test("Local HTTP server test")
 test:plan(340)
+
+--clean the keys in case of their existence
+http_client.delete(send_route..'/'..test_examples1[1].key)
+http_client.delete(send_route..'/'..test_examples1[2].key)
+http_client.delete(send_route..'/'..test_examples1[3].key)
+http_client.delete(send_route..'/'..test_examples1[4].key)
+http_client.delete(send_route..'/'..test_examples1[7].key)
+for i = 1, 100 do
+    http_client.delete(send_route..'/test'..i)
+end
+
 
 test:is(http_client.post(send_route, json.encode(test_examples1[1])).status, 
     200, "Correct post request")
