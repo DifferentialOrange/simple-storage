@@ -4,11 +4,12 @@ Simple key-value storage based on Tarantool with HTTP API. Key must be unique st
 Web-version is available at https://powerful-thicket-97841.herokuapp.com/
 
 Request examples:
+```
+POST /kv body : { "key" : "abc", "value" : JSON1 }
 
-POST route/kv body : { key : "abc", value : JSON }
+PUT /kv/abc body : { "value" : JSON2 }
 
-PUT route/kv/abc body : { value : JSON }
+GET /kv/abc
 
-GET route/kv/abc
-
-DELETE route/kv/abc
+DELETE /kv/abc
+```
