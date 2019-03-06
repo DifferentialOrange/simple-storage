@@ -14,11 +14,6 @@ box.once('init', function()
 )
 
 
-local function get_key_from_path(path)
-    --"/route/key"
-    return path:sub(string.len(route_name..'/') + 1)
-end
-
 local function post_handler(request)
     local body = request:json()
     local key = body["key"]
@@ -37,7 +32,7 @@ end
 
 local function put_handler(request)
     local body = request:json()
-    local key = get_key_from_path(request.path)
+    local key = request:stash('key')
     local value = body["value"]
 
     if not value then
@@ -52,7 +47,7 @@ local function put_handler(request)
 end
 
 local function get_handler(request)
-    local key = get_key_from_path(request.path)
+    local key = request:stash('key')
 
     local result = box.space.base:get(key)
     if result then
@@ -63,7 +58,7 @@ local function get_handler(request)
 end
 
 local function delete_handler(request)
-    local key = get_key_from_path(request.path)
+    local key = request:stash('key')
 
     if box.space.base:delete(key) then
         return {status = 200}
